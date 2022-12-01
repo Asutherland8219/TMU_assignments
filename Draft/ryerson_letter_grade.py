@@ -3,6 +3,26 @@
 # the first problem "Ryerson Letter Grade":
 
 def ryerson_letter_grade(n):
+    letter_grade = {
+        50 : "F",
+        50 : "F",
+        50 : "F",
+        50 : "F",
+        50 : "F",
+        50 : "F",
+        50 : "F",
+        50 : "F",
+        50 : "F",
+        50 : "F",
+        50 : "F",
+        50 : "F",
+        50 : "F",
+        50 : "F",
+        50 : "F",
+        50 : "F",
+        
+        
+    }
     if n < 50:
         return 'F'
     elif n > 89:

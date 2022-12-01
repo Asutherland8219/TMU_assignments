@@ -41,10 +41,59 @@ def only_odd_digits(n):
         return True 
     else:
         return False  
+    
+# check if the items in a list are in ascending order 
+def is_ascending(items):
+    for x in range(len(items) - 1):
+        if items[x] >= items[x + 1]:
+            return False
+    return True 
 
-    
+### Match the 2nd value of the pair with the 2nd item in the 2nd pair
+
+def domino_cycle(tiles):
+    index = 0
+    if len(tiles) == 0:
+      return True
+  
+    if len(tiles) == 1:
+        return tiles[0][0] == tiles[0][1]
             
+    else:
+        while index <= (len(tiles) - 2):
+            if (tiles[index][1] == tiles[index+1][0]):
+                index += 1
+            else:
+            
+                return False
+        
+        if tiles[0][0] == tiles[-1][1]:
+            return True
+        else:
+            return False
+        
+# looking for a singular 0 number between two equal sides 
+
+def is_cyclops(n):
+    str_number = str(n)
     
+    if len(str_number) % 2 == 0 :
+        return False
+    else:
+        mid = len(str_number)//2
+        if str_number[mid] != "0" or str_number.count("0") > 1:
+            return False
+        else:
+            return True
+        
+            
+
+
+
+
+
+
+
             
     
             
