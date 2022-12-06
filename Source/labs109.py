@@ -26,21 +26,11 @@ def ryerson_letter_grade(n):
     return "DCB"[tens - 5] + adjust
 
 
-# check the digits are only odd 
+# not working 
+# # check the digits are only odd 
 def only_odd_digits(n):
-    index = 0 
-    x = index
-    if n == 0:
-        return False
-    while n > 0:
-        x = n%10
-        if x%2 == 0:
-            index = 1
-            return False
-            break
-        n = n // 10
-    if index == 0:
-        return True
+    return set(str(n))-set('13579')==set()
+
     
 # check if the items in a list are in ascending order 
 def is_ascending(items):
@@ -398,3 +388,51 @@ def reverse_ascending_sublists(items):
             index = i + 1
 
     return items
+
+# Calkin Wilf Sequence
+from fractions import Fraction as f
+from collections import deque as d
+
+def calkin_wilf(n):
+    a = 1
+    first = f(1, 1)
+    seq = d()
+    seq.append(first)
+
+    while a<n:
+        for i in range(len(seq)):
+            fraction = seq.popleft()
+            num = fraction.numerator
+            den = fraction.denominator
+
+            frac_answer = f(num, num + den)
+            seq.append(frac_answer)
+            a += 1
+            if a == n:
+                return seq[-1]
+
+            frac_answer = f(num + den, den)
+            seq.append(frac_answer)
+            a += 1
+            if a == n:
+                return seq[-1]
+                
+    return -1
+
+def possible_words(words,pattern):
+  match = []
+  for word in words:
+    match_true = True
+    if len(word)==len(pattern):
+      for i in range(len(pattern)):
+        if pattern[i].isalpha():
+          if pattern[i] != word[i]:
+            match_true = False
+            break
+        else:
+          if word[i] in pattern:
+            match_true = False
+            break
+      if match_true:
+        match.append(word)
+  return match
