@@ -3,6 +3,7 @@
 # the first problem "Ryerson Letter Grade":
 
 from itertools import count
+from operator import index
 from unittest import result
 
 
@@ -26,10 +27,16 @@ def ryerson_letter_grade(n):
     return "DCB"[tens - 5] + adjust
 
 
-# not working 
 # # check the digits are only odd 
 def only_odd_digits(n):
-    return set(str(n))-set('13579')==set()
+    index = str(n)
+    count=0
+    for x in range (len(index)):
+        num=int(index[x])
+        if num%2!=0:
+            count+=1
+
+    return count==len(index)
 
     
 # check if the items in a list are in ascending order 
@@ -231,13 +238,6 @@ def reverse_vowels(text):
             res += i
     return res
 
-# only return the odd digits 
-def only_odd_digits(n):
-    
-    x = list(map(int, str(x)))
-    result = all(y%2 == 1 for y in x)
-    return(result)
-
 
 def arithmetic_progression(elems):
     len_ele = len(elems)
@@ -336,12 +336,14 @@ def safe_squares_bishops(n, bishops):
 def expand_intervals(intervals):
     result = []
     for i in intervals.split(','):
+        if i == '':
+            continue
         if '-' not in i:
             result.append(int(i))
         else:
-            x,y = map(int, i.split('-'))
-            result+= range(x,y+1)
-    return result
+            l,h = map(int, i.split('-'))
+            result+= range(l,h+1)
+    return str(result)
 
 def collapse_intervals(items):
     if items:
@@ -436,3 +438,172 @@ def possible_words(words,pattern):
       if match_true:
         match.append(word)
   return match
+
+from math import sqrt
+def sum_of_two_squares(n):
+    sq = int(sqrt(n))
+    for i in range(sq, 0, -1):
+        x = n - i ** 2
+        if (int(sqrt(x))) ** 2 == x and int(sqrt(x)) > 0:
+            return i, int(sqrt(x))
+        
+def unscramble(words,word):
+  result=[]
+  for i in words:
+    if i[0] == word[0] and i[-1] == word[-1] and len(word) == len(i):
+      if sorted(list(word[1:-1])) == sorted(list(i[1:-1])):
+        result.append(i)
+  return result
+
+def pyramid_blocks(n,m,h):
+  total = 0
+  for index in range(h):
+    total += (n+index)*(m+index)
+  return total
+
+
+
+def count_dominators(items):
+    index = 0
+    for key,item in enumerate(items):
+        dominator = True
+        for right_item in items[key + 1:]:
+            if item <= right_item:
+                dominator = False
+                break
+        if dominator:
+            index = index + 1        
+    return index
+
+
+def frequency_sort(elems):
+    import collections
+    index = collections.Counter(elems)
+    fin = sorted(elems,key=lambda x: (index [x],-x),reverse=True)
+    return (fin)
+
+def safe_squares_rooks(n, rooks):
+    r = set()
+    c = set()
+    for i in range(len(rooks)):
+        r.add(rooks[i][0])
+        c.add(rooks[i][1])
+    return (n - len(c)) * (n - len(r))
+
+def bulgarian_solitaire(piles, k):
+    index = 0
+    total_sum = int(k*(k+1)//2)
+    check_list = list(range(1, k+1))
+    piles = [i for i in piles if i != 0]
+    while True:
+        if all(x in piles for x in check_list): break
+        else:
+            piles = [x - 1 for x in piles]
+            piles = [i for i in piles if i != 0]
+            appended_value = total_sum - sum(piles)
+            piles.append(appended_value)
+            index +=1    
+    return index
+
+
+from statistics import median 
+import math
+def tukeys_ninthers(items):
+    iter = int(math.log(len(items), 3))
+    arr = items
+    working_arr = []
+    for i in range(iter):
+        for j in range(0, len(arr), 3):
+            working_arr.append(median([ arr[j], arr[j+1] , arr[j+2] ]))
+        arr = working_arr
+        working_arr = []
+    return median(arr)
+
+def crag_score(dice):
+    d = dict()
+    low,high,odd,even = [1,2,3], [4,5,6], [1,3,5], [2,4,6]
+    if sum(dice) == 13 and (dice[0] == dice[1] or dice[1] == dice[2] or dice[0] == dice[2]): 
+        return 50
+    elif sum(dice) == 13:
+        return 26
+    elif dice[0] == dice[1] == dice[2]:
+        return 25
+    elif all(x in dice for x in low) or all(x in dice for x in high) or all(x in dice for x in odd) or all(x in dice for x in even):
+        return 20
+    else:
+        for die in dice:
+            d[die] = d.get(die, 0) + 1
+        x = [k*v for k,v in d.items()]
+        return max(x)
+
+
+def squares_intersect(s1, s2):
+    if (s1[0] + s1[2] < s2[0]) or (s1[1] + s1[2] < s2[1]) or (s2[0] + s2[2] < s1[0]) or (s2[1] + s2[2] < s1[1]):
+        return False 
+    
+    else:
+        return True
+    
+def remove_after_kth(items, k = 1):
+    di = {}
+    li = []
+    for i in items:
+        di[i] = di.get(i, 0) + 1
+        if(di[i] <= k):
+            li.append(i)
+    return li
+
+def brangelina(first, second):
+    firstv, temp = [],[]
+    for ind, letter in enumerate(first):
+        if letter in ('a', 'e', 'i', 'o', 'u'):
+            temp.append(ind)
+        else:
+            if len(temp) > 0:
+                firstv.append(temp)
+                temp = []
+    if len(temp) > 0:
+                firstv.append(temp)
+                temp = []
+    if len(firstv) > 2:
+        firstv = firstv[:-1]
+        first = first[:int(firstv[-1][0])]
+    else:
+        first = first[:int(firstv[0][0])]
+    
+    while second[0] not in ('a', 'e', 'i', 'o', 'u'):
+        second = second[1:]
+            
+    return first + second
+
+def seven_zero(n):
+    d = 1
+    ans = 0
+    while True:
+        if n%2 == 0 or n%5 == 0:
+            k = 1
+            while k <= d:
+                val = int(k * '7' + (d-k) * '0')
+                if val%n == 0:
+                    ans = val
+                    break
+                k += 1
+        else:
+            val = int(d * '7')
+            ans = val if val%n == 0 else 0 
+        d += 1
+        if ans > 0:
+            return ans
+        
+def count_divisibles_in_range(start, end, n):
+    return (end - (start - n - start % n)) // n - 1 + (1 if start % n == 0 else 0)
+
+
+def bridge_hand_shape(hand):
+    cards = [b for a, b in hand]
+    spades = cards.count('spades')
+    hearts = cards.count('hearts')
+    diamonds = cards.count('diamonds')
+    cardst = cards.count('clubs')
+    return [spades, hearts, diamonds, cardst]
+
