@@ -27,7 +27,6 @@ def ryerson_letter_grade(n):
     return "DCB"[tens - 5] + adjust
 
 
-# # check the digits are only odd 
 def only_odd_digits(n):
     index = str(n)
     count=0
@@ -38,15 +37,12 @@ def only_odd_digits(n):
 
     return count==len(index)
 
-    
-# check if the items in a list are in ascending order 
 def is_ascending(items):
     for x in range(len(items) - 1):
         if items[x] >= items[x + 1]:
             return False
     return True 
 
-### Match the 2nd value of the pair with the 2nd item in the 2nd pair
 
 def domino_cycle(tiles):
     index = 0
@@ -69,7 +65,6 @@ def domino_cycle(tiles):
         else:
             return False
         
-# looking for a singular 0 number between two equal sides 
 
 def is_cyclops(n):
     str_number = str(n)
@@ -82,8 +77,7 @@ def is_cyclops(n):
             return False
         else:
             return True
-
-# give the correct amount of change back!        
+     
 def give_change(amount, coins):
         result = []
         return give_change_sort(amount, coins, result)
@@ -101,7 +95,6 @@ def give_change_sort(amount, coins, result):
                 return result
         return give_change_sort(amount, coins, result)
 
-# count the carry over to the next column similar to writing out addition on paper column style
 def count_carries(a, b):
     a = str(a)
     b = str(b)
@@ -138,7 +131,6 @@ def first_preceded_by_smaller(items, k=1):
     return None
 
 
-# look for duplicate digits 
 def duplicate_digit_bonus(n):
     digit = str(n)
     index = 0
@@ -464,16 +456,14 @@ def pyramid_blocks(n,m,h):
 
 
 def count_dominators(items):
-    index = 0
-    for key,item in enumerate(items):
-        dominator = True
-        for right_item in items[key + 1:]:
-            if item <= right_item:
-                dominator = False
-                break
-        if dominator:
-            index = index + 1        
-    return index
+    empty_list = []
+    inversed = items[::-1]
+    for i in range(len(inversed)):
+        if i == 0:
+            empty_list.append(items[-1])
+        if inversed[i] > empty_list[-1]:
+            empty_list.append(inversed[i])
+    return len(empty_list)
 
 
 def frequency_sort(elems):
@@ -607,3 +597,295 @@ def bridge_hand_shape(hand):
     cardst = cards.count('clubs')
     return [spades, hearts, diamonds, cardst]
 
+def subtract_square(queries):
+    result = []
+    state = [False]
+    for x in range(1, queries[len(queries) - 1] + 1):  
+        y = 1
+        while True:
+            if x - y * y < 0:
+                state.append(False)
+                break
+            if not state[x - y * y]:
+                state.append(True)
+                break
+            else:
+                y += 1
+    for x in range(0, len(queries)):  
+        result.append(state[queries[x]])
+    return result
+
+def line_with_most_points(points):
+    slope_count = 0  
+    if len(points) <= 2:  
+        return len(points)
+    for point_a in points: 
+        point_dict = {}
+        duplicate = 0
+        max_current = 0
+        for point_b in points:
+            if point_a != point_b:
+                if point_a[0] == point_b[0]:
+                    slope = 10000  
+                else:
+                    slope = float(point_b[1] - point_a[1]) / float(point_b[0] - point_a[0])  
+                point_dict[slope] = point_dict.get(slope, 0) + 1
+                max_current = max(max_current, point_dict[slope])
+            else:
+                duplicate += 1
+        slope_count = max(slope_count, max_current + duplicate)
+    return slope_count
+
+def oware_move(board, house): 
+    s, n = board[house], len(board)
+    pstn = house
+    board[house] = 0
+    while s > 0:
+        index = 0
+        for i in range(pstn + 1, len(board)):
+            board[i] += 1
+            index = i
+            s -= 1
+            if s == 0:
+                break
+        if s > 0:
+            for i in range(house):
+                board[i] += 1
+                s -= 1
+                if s == 0:
+                    break
+        else:
+            while board[index] in [2, 3] and index >= n / 2:
+                board[index] = 0
+                index -= 1
+    return board
+
+def candy_share(candies):
+    n = len(candies) 
+    index = 0  
+    while True:  
+        if not any(i >= 2 for i in candies): 
+            return index  
+        index += 1
+        new_candies = [0] * n
+        for x in range(n):
+            if candies[x] >= 2:  
+                candies[x] -= 2  
+                if x == n - 1:  
+                    new_candies[x - 1] += 1  
+                    new_candies[0] += 1  
+                else:
+                    new_candies[x - 1] += 1  
+                    new_candies[x + 1] += 1  
+            new_candies[x] += candies[x]  
+        candies = new_candies
+
+
+def is_perfect_power(n):
+    x = 2
+    while True:
+        if 2 ** x > n: 
+            return False
+        a = 2
+        b = a
+        while b ** x <= n:
+            b *= 2
+        while b - a > 1:
+            mid = (a + b) // 2
+            if mid ** x <= n:
+                a = mid
+            else:
+                b = mid
+        if a ** x == n:
+            return True
+        x += 1  
+
+def balanced_centrifuge(n, k): 
+    if n < 2:
+        return False
+    factors, div = [], 2
+    num = n
+    while num > 1:
+        if num / div % 1:
+            div += 1
+        else:
+            if not div in factors:
+                factors.append(div)
+            num /= div
+            
+    def validity_check(n, acc, factors, i):
+        if acc == n:
+            return True
+        elif acc > n:
+            return False
+        else:
+            for j in range(i, len(factors)):
+                if validity_check(n, acc + factors[j], factors, j):
+                    return True
+            return False
+    return validity_check(k, 0, factors, 0) and validity_check(n - k, 0, factors, 0)
+
+def taxi_zum_zum(moves):
+    dir = [1, 0, 0, 0]
+    result = [0, 0]
+    for i in range(len(moves)):
+        if moves[i] == 'L':
+            if dir.index(1) == 0:
+                dir[0] = 0
+                dir[3] = 1
+            else:
+                one_index = dir.index(1)
+                dir[one_index - 1] = 1
+                dir[one_index] = 0
+
+        if moves[i] == 'R':
+            if dir.index(1) == 3:
+                dir[0] = 1
+                dir[3] = 0
+            else:
+                one_index = dir.index(1)
+                dir[one_index + 1] = 1
+                dir[one_index] = 0
+
+        if moves[i] == 'F':
+            if dir.index(1) == 0: result[1] += 1
+            elif dir.index(1) == 1: result[0] += 1
+            elif dir.index(1) == 2: result[1] -= 1
+            else: result[0] -= 1
+    return tuple(result)
+
+def ztalloc(shape):
+    index = 1
+
+    while True:
+        try:
+            if shape[-1:] == 'd':
+                index =index*2
+                if index%2 !=0:
+                    return(None)
+
+            elif shape[-1] =='u':
+                if (((index-1)//3)!= ((index-1)/3)):
+                    return(None)
+                index = (index-1)//3
+
+                if (index%2 ==0):
+                    return(None)
+            shape = shape[:-1]
+
+        except:
+            return (index)
+
+def subtract_square(queries):
+    result = []
+    state = [False]
+    for x in range(1, queries[len(queries) - 1] + 1):  
+        y = 1
+        while True:
+            if x - y * y < 0:
+                state.append(False)
+                break
+            if not state[x - y * y]:
+                state.append(True)
+                break
+            else:
+                y += 1
+    for x in range(0, len(queries)):  
+        result.append(state[queries[x]])
+    return result
+
+
+def count_growlers(animals): 
+  growlers = 0
+  
+  for animalIndex in range(len(animals)):
+    if (animals[animalIndex] == "cat") or (animals[animalIndex] == "dog"):  # look left
+      Cats = 0
+      Dogs = 0
+      for subAI in range(0, animalIndex):
+        if (animals[subAI] == "cat") or (animals[subAI] == "tac"):
+          Cats +=1
+        elif (animals[subAI] == "dog") or (animals[subAI] == "god"):
+          Dogs +=1
+      if (Dogs > Cats):
+        growlers += 1    
+
+    elif (animals[animalIndex] == "tac") or (animals[animalIndex] == "god"): # look right
+      Cats = 0
+      Dogs = 0
+      for subAI in range(animalIndex+1, len(animals)):
+        if (animals[subAI] == "cat") or (animals[subAI] == "tac"):
+          Cats +=1
+        elif (animals[subAI] == "dog") or (animals[subAI] == "god"):
+          Dogs +=1
+      if (Dogs > Cats):
+        growlers += 1    
+
+  
+  return growlers
+
+def group_and_skip(n,out,ins):
+    index=[]
+    while n!=0:
+        index.append(n%out)
+        n=n//out
+        n=n*ins
+    return index
+
+# def lunar_multiply(a, b):  # min function
+#     first, second = str(a)[::-1], str(b)[::-1]
+#     big_digit = []
+#     res= 0
+#     for x in range(len(second)):
+#         d = ''
+#         for y in range(len(first)):
+#             d += min(first[y], second[x])
+#         big_digit.append('0'*x+d)  
+#     for x in big_digit: 
+#         res = lunar_max(res, x[::-1])
+#     return res
+
+# def lunar_max(x, y):  
+#         first, second = str(x)[::-1], str(y)[::-1]
+#         sum = ''
+#         for i in range(max(len(first), len(second))):
+#             sum += max(first[i:i+1], second[i:i+1])
+            
+def nearest_smaller(items):
+    n, result = len(items), []
+    for (i, e) in enumerate(items):
+        j = 1
+        while j < n:
+            left = items[i - j] if i >= j else e
+            right = items[i + j] if i+j < n else e
+            if left < e or right < e:
+                result.append(left if left < right else right)
+                break
+            j += 1
+        else:
+            result.append(e)
+    return result
+
+def eliminate_neighbours(items):
+    if len(items) == 1:  
+        return 1
+    og_len = len(items)
+    index = 0
+    for i in range(1, len(items) + 1):
+        if i in items:
+            index += 1
+            if len(items) == 1:
+                items.pop(0)
+                break
+            center = items.index(i)
+            left = center - 1
+            if left < 0 or ((center + 1) < len(items) and items[center + 1] > items[left]):
+                left = center + 1
+            value = items[left]
+            if center > left:
+                center = left
+            items.pop(center)
+            items.pop(center)
+            if value == og_len:
+                break
+    return index

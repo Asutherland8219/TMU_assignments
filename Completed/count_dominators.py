@@ -1,15 +1,10 @@
 
-
-
 def count_dominators(items):
-    index = 0
-    for key,item in enumerate(items):
-        dominator = True
-        for right_item in items[key + 1:]:
-            if item <= right_item:
-                dominator = False
-                break
-        if dominator:
-            index = index + 1        
-    return index
-
+    empty_list = []
+    inversed = items[::-1]
+    for i in range(len(inversed)):
+        if i == 0:
+            empty_list.append(items[-1])
+        if inversed[i] > empty_list[-1]:
+            empty_list.append(inversed[i])
+    return len(empty_list)
