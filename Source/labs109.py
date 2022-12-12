@@ -7,25 +7,34 @@ from operator import index
 from unittest import result
 
 
-def ryerson_letter_grade(n):
-    if n < 50:
-        return 'F'
-    elif n > 89:
-        return 'A+'
-    elif n > 84:
-        return 'A'
-    elif n > 79:
-        return 'A-'
-    tens = n // 10
-    ones = n % 10
-    if ones < 3:
-        adjust = "-"
-    elif ones > 6:
-        adjust = "+"
-    else:
-        adjust = ""
-    return "DCB"[tens - 5] + adjust
 
+def ryerson_letter_grade(n):
+    if n >= 90:
+        return 'A+'
+    elif n >= 85:
+        return 'A'
+    elif n >= 80:
+        return 'A-'
+    elif n >= 77:
+        return 'B+'
+    elif n >= 73:
+        return 'B'
+    elif n >= 70:
+        return 'B-'
+    elif n >= 67:
+        return 'C+'
+    elif n >= 63:
+        return 'C'
+    elif n >= 60:
+        return 'C-'
+    elif n >= 57:
+        return 'D+'
+    elif n >= 53:
+        return 'D'
+    elif n >= 50:
+        return 'D-'
+    else:
+        return 'F'
 
 def only_odd_digits(n):
     index = str(n)
@@ -831,25 +840,6 @@ def group_and_skip(n,out,ins):
         n=n//out
         n=n*ins
     return index
-
-# def lunar_multiply(a, b):  # min function
-#     first, second = str(a)[::-1], str(b)[::-1]
-#     big_digit = []
-#     res= 0
-#     for x in range(len(second)):
-#         d = ''
-#         for y in range(len(first)):
-#             d += min(first[y], second[x])
-#         big_digit.append('0'*x+d)  
-#     for x in big_digit: 
-#         res = lunar_max(res, x[::-1])
-#     return res
-
-# def lunar_max(x, y):  
-#         first, second = str(x)[::-1], str(y)[::-1]
-#         sum = ''
-#         for i in range(max(len(first), len(second))):
-#             sum += max(first[i:i+1], second[i:i+1])
             
 def nearest_smaller(items):
     n, result = len(items), []
