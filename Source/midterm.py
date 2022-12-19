@@ -1,3 +1,5 @@
+import time 
+
 """ For loops are meant to be used when each item in the data needs to be looked at. For loops can also be nested and contain different types of criteria. The criteria can be conditional or any other variety. 
 While loops are meant to be used to loop through data when you are looking for singular criteria. Typically, while loops have a boolean value (1/0, True/False) that is the trigger if the while loop continues or not.
 While loops are often considered riskier due to the increase chances of an infinite loop from faulty logic. 
@@ -64,18 +66,37 @@ In this case the lists are also both identical in output as well. """
             
 input_list1 = [ 1, 0, 3, 0, 5, 0, 7, 0, 9]
 
-input_list2 = [ 0, 2, 0, 4, 0, 6, 0, 8, 0]
+input_list2 = [ 1, 1, 0, 4, 0, 6, 0, 8, 0]
 
 t = zip(input_list1, input_list2)
 
-mixed_list = []
 
-for each in list(t):
-    for y in each:
-        if y == 0:
-            continue
-        else:
-            mixed_list.append(y)
+def mixed_list(input_list1, input_list2):
+    odd_val = input_list1[:len(input_list1):2]
+    input_list2.append(0)
+    even_val = input_list2[1:len(input_list2):2]
+    
+    t = zip(odd_val, even_val)
+    
+    result1 =  [ item for tup in t for item in tup]
+    
+    list1 = result1[:len(result1)-1]
+
+    list2= list1
+    
+    return list1, list2
+
+
+print(mixed_list(input_list1, input_list2))
+
+
+
+# for each in list(t):
+#     for y in each:
+#         if y == 0:
+#             continue
+#         else:
+#             mixed_list.append(y)
             
 # print(mixed_list)
 
@@ -143,15 +164,37 @@ def mix_list(list1, list2):
 print( mix_list(list1, list2))
 
 
+# green_light = False
+# red_light = True
+
+# def light_sensor(red_light, green_light):
+#     while red_light == True:
+#          time.sleep(60)
+#          red_light = False
+#          green_light = True 
+         
+#     return (green_light)
+
+# print(light_sensor(green_light, red_light))
+
+
 def greeting(value):
-    # value check to make sure it is correct 
+    # value check to make sure it is correct type
     value = int(value)
     
-    time_range = [{"Good Morning" : {  600, 1159 } }, 
-                    {"Good Afternoon" : {  1200, 559 } },
-                    {"Good Evening"   : { 600, 2100 } }
+    time_range = [{"Good Morning" :  [600, 1159 ] }, 
+                    {"Good Afternoon" : [1200, 1759]},
+                    {"Good Evening"   : [1800, 2100]}
     ]
-    for time_frame in time_range:  
-        if  value in list(time_frame.values()):
-            print(value.keys())
-        
+    
+    greet = "Good Day"
+    
+    for time_frame in time_range:
+        for t in time_frame.items():
+            time_range = range(t[1][0], t[1][1])
+            if value in time_range:
+                greet = t[0]
+       
+    return greet
+                
+    
